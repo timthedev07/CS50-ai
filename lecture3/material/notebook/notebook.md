@@ -30,15 +30,19 @@ search algorithms that maintain a single node and searches by moving to a neighb
 It is different from search methods introduced in the first lecture(bfs, dfs, A*, greedy best) as local search is trying to figure out the optimal solution, whereas bfs, dfs, A*, greedy best are ways to figure out the path to get to the the optimal solution.
 
 For example in the picture below, the total cost of this configuration is 17, what optimization is trying to do is find a plan that produces the lowest cost.
+
 ![](img/hospital.png)
 
 
 This is a state-space landscape, where each vertical bar is a possible state in our world, and the height of the bar is the cost of it.
+
+
 ![](img/state-space.png)
 
 If we are trying to find the maximum value along these states, we use an algorithm called ***Hill Climbing***
 
 Start off by picking a state
+
 ![](img/max1.png)
 
 And then we want to choose a state with larger value sbetween the neighbors, in this case, it is the node to the left
@@ -57,7 +61,8 @@ function HILL_CLIMB(problem):
     current_state = problem.initial_state
     repeat:
         neighbor = current_state.highestValuedNeibour
-        if neighbor is not the better than current:
+        if neighbor is not the better than current: 
+            # meaning if there's not better neighbors
             return current_state
         current_state = neighbor
 ```
@@ -72,13 +77,15 @@ And something even more annoying(flat local maximum):
 
 Although we have a few other variants:
 
-- Steepest-ascent(choose the highest-valued neighbor) 
-- Stochastic(choose randomly from higher-valued neighbors)
-- First-choice(choose the first higher-valued neighbor)
-- random-restart(conduct hill climbing multiple times)
-- local beam search(choose the k highest-valued neighbors, meaning we are not only keeping track of one current best state, instead we are looking at k states.)
+| Variant              | Definition                                   |
+| -------------------- | -------------------------------------------- |
+| Steepest-ascent      | choose the highest-valued neighbor           |
+| Stochastic           | choose randomly from higher-valued neighbors |
+| First-choice         | choose the first higher-valued neighbor      |
+| Random-restart       | conduct hill climbing multiple times         |
+| Local beam search    | choose the k highest-valued neighbors, meaning we are not only keeping track of one current best state, instead we are looking at k states. |
 
----
+------
 
 ## Simulated annealing
 You can think of this as a physical reaction in which the particles start moving really fast because the temperature is high, but as the temperature decreases, the particles slow down and eventually stop.
