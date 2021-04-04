@@ -49,12 +49,115 @@ They are connected to the output unit by an edge with a weight of 1. The output 
 
 This can be represented using a neural network. x₁ and x₂ are the inputs, they are connected to the result node by an edge with a weight of 1(that means they are going to be multiplied by the weight, which is 1). The output node then uses adds a bias, which in this case is -1 to the activation function to calculate the final result.
 
-Of course we could have more than two inputs there. We might have something like this:
+Of course we could have more than two inputs there(in fact as many as we want). We might have something like this:
 
 <img src="assets/multiple.png" width="400"/>
 
-Thus we get the formula for computing the output is:
+Thus we get the formula for computing this particular output is:
 
 <img src="assets/formula.png" width="300"/>
+
+Computationally representing the formula(assuming we have n nodes connected to the output):
+```py
+sum([xᵢ * wᵢ for i in range(n)]) + w0 # w0 is the bias
+```
+
+## **Gradient Descent**
+Algorithm for minimizing loss when training neural network.
+
+- ``Start with a random choice of weights``
+- ``Repeat``:
+    - <code>Calculate the gradient based on <b>all data points</b> that will lead to decreasing loss. Ultimately, the gradient is a vector (a sequence of numbers).</code>
+    - ``Update weights according to the gradient``
+
+
+But the expensive part of this algorithm is <code><b>all data points</b></code>, where we have to look at all of the data points. But there are alternatives to the standard gradient descent.
+
+Not only can we add nodes to the input layer, instead of just one output, you might also add nodes to the output layer and connect the new nodes with all of the inputs. 
+
+For example, in the case of predicting the weather, we might not only want to predict whether it is going to rain or not, we might also be interested in what exactly the weather is(snowy, cloudy, smoggy, ...).
+
+<img src="assets/weather.png" width="700"/>
+
+In this picture, the input nodes on the right might be some data collected about the weather, each of the inputs gets multiplied by a weight, and finally results in some probability. We then can choose the output node with the highest probability and say we would like to categorize the data to that class.
+
+When training a neural network that has multiple outputs, we could treat them as several individual neural networks.
+
+
+### ***Stochastic Gradient Descent***
+Pretty similar to the standard algorithm, but instead we are looking at one random data point instead of all data points. Although this tends to be a lot faster, but the result might not be as accurate.
+
+- ``Start with a random choice of weights``
+- ``Repeat``:
+    - <code>Calculate the gradient based on <b>one random data point</b> that will lead to decreasing loss. Ultimately, the gradient is a vector (a sequence of numbers).</code>
+    - ``Update weights according to the gradient``
+
+### ***Mini-Batch Gradient Descent***
+Pretty similar to the standard algorithm as well, but this time we are looking at a small batch(a small group) of data points, and the number of data points in the batch is up to the programmer. In conclusion, this is somewhere between the two algorithms introduced before, it is not the fastest, nor the most accurate, but it balances the tradeoff.
+
+- ``Start with a random choice of weights``
+- ``Repeat``:
+    - <code>Calculate the gradient based on <b>one small batch</b> that will lead to decreasing loss. Ultimately, the gradient is a vector (a sequence of numbers).</code>
+    - ``Update weights according to the gradient``
+
+
+
+
+## **Multilayer Neural Networks**
+Artificial neural network with an input layer, an output layer, and at least one hidden layer.
+
+For example:
+
+<img src="assets/multilayer.png" width="400"/>
+
+The four nodes in the input layer aren't directly connected to the output node, but instead they are connected to a <code>*"hidden layer"*</code>, which in this case consists of four nodes, then then hidden layer is going to go through some activation function and finally results in an output.
+
+This is useful when computing functions that are used to draw more complex decision boundaries(non-linear for example). Through hidden layers, it is possible to model non-linear data.
+
+## **Backpropagation**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
