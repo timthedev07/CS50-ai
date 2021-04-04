@@ -115,15 +115,63 @@ The four nodes in the input layer aren't directly connected to the output node, 
 This is useful when computing functions that are used to draw more complex decision boundaries(non-linear for example). Through hidden layers, it is possible to model non-linear data.
 
 ## **Backpropagation**
+Algorithm for training neural networks with hidden layers
+
+Pseudo code:
+
+```
+Start with a random choice of weights
+Repeat the training process again and again:
+    calculate error for output layer
+    For each layer, starting with output layer, and moving inwards towards earliest hidden layer:
+        Propagate error back one layer
+        Update weights
+```
+
+This can be extended to any number of hidden layers, creating deep neural networks, which are neural networks that have more than one hidden layer.
+
+<img src="assets/deepnn.png" width="700" />
+
+## **Overfitting**
+- Overfitting is a potential danger caused by fitting too closely to the training data, thus it fails to generalize to other situations(when dealing with data other than the training data). This happens as we begint over-rely on certain nodes inside the neural network.  
+- 
+
+### *Dropout*
+Dropout is a technique used when dealing with overfitting. The goal is to prevent over-reliance on certain units.
+- temporarily removing units - selected at random - from a neural network to prevent over-reliance on certain units
+- Each time we train the model, we randomly remove some nodes from the neural network, so that we don't heavily rely on any one particular node.
 
 
+<img src="assets/dropout.png">
 
 
+## **TensorFlow**
+taking advantage of existing libraries, we can simulate the process of training a neural network.
 
+This is an example in python:
 
+```python
+# Create a neural network
+model = tf.keras.models.Sequential()
 
+# Add a hidden layer with 8 units, with ReLU activation
+model.add(tf.keras.layers.Dense(8, input_shape=(4,), activation="relu"))
 
+# Add output layer with 1 unit, with sigmoid activation
+model.add(tf.keras.layers.Dense(1, activation="sigmoid"))
 
+# Train neural network
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+model.fit(X_training, y_training, epochs=20)
+
+# Evaluate how well model performs
+model.evaluate(X_testing, y_testing, verbose=2)
+
+```
 
 
 
