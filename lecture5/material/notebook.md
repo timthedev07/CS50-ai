@@ -3,7 +3,7 @@
 - Neurons are connected to and receive electrical signals from other neuton
 - Neurons process input signals and can ba activated
 
-### Artificial neural network
+## **Artificial neural network**
 Mathematical model for learning inspired by biological neural networks
 - Model mathematical function from inputs to outputs based on the structure and parameters of the network.
 - Allows for learning the network's parameters based on data.
@@ -17,7 +17,7 @@ h(x1, x2) = w0 + w1x1 + w2x2
 
 The w0 can be considered to be multiplied by one, but it's also reasonable to call it a **bias**.
 
-## Activation functions
+## **Activation functions**
 An activation function that determines when it is that this output becomes active, changes to another classification.
  
 - Step function - a binary classification which gives 0 before a certain threshold is reached and 1 after the threshold is reached. 
@@ -173,17 +173,66 @@ model.evaluate(X_testing, y_testing, verbose=2)
 
 ```
 
+## **Computer vision**
+Computational methods for analyzing and understanding digital images.
+This might be used when:
+- Self-driving cars, where they have cameras, and we would like the computer to figure out via some sort of algorithm, the color of roads, what cars are around us, etc.
+- Hand-Writing recognition, where we have a data set that consists of hand-written digits(or letters as well), and we can use this to train the computer such that it can recognize the characters from hand-written documents.
+<img src="assets/handWriting.png" width="700" />
+
+In the context of reconizing an image, and image is just a grid of pixels, where each pixel have some RGB value, and you can consider all of the pixels as nodes, and start to make predictions via some hidden layers.
+
+## **Image Convolution**
+Applying a filter that adds each pixel value of an image to its neighbors, weighted according to a kernel matrix, such that the machine can extract useful details out of the image.
+
+For example, when detecting edges that appear in a picture, the following kernel is often used:
+
+<img src="assets/kernel.png" width="200" />
+ 
+This [example](scripts/convolution.py) applies the edge detection kernel to a picture.
+
+Although this works fine, but imagine the input image is a very large one with 16K resolution, 15360 × 8640 pixels, the cost would **inestimable** and thus would be computationally expensive.
+
+Another way to go about this is:
+
+### ***Pooling***
+- Pooling reduces the size of an input by sampling from regions in the input.
+- ***Max Pooling*** pools by choosing the maximum value in each region, for example:
+
+
+<img src="assets/maxpooling.png" width="700" />
+
+We are applying a `2 x 2` max pool, we look at each two-by-two region and pick the largest value, then group them into new `2 x 2` grid.
+
+## **Convolutional Neural Networks**
+A neural network that uses convolution, usually for analyzing images.
+
+<img src="assets/convolutionalnn.png" width="700" />
+
+- We start with an input image(which can be considered as a grid of pixels), in the convolution step, we apply filters to the input in order to get a feature map, this might done several times.
+- Because of the large amount of data, we would have to go through the process of pooling, reducing the size of the data such that we end up with smaller dimensions, and less pixels. 
+- Finally we flatten the data and pass them in to the input layer of a neural network.
+- You might also want to do the process of `convolution + pooling` multiple times in multiple different steps to reduce the data as much.
+
+<img src="assets/minimizingdata.png" width="700" />
+
+
+The process of using neural networks to get ouputs can be represented as:
+
+<img src="assets/ffnndiagram.png" width="700" />
+
+Where we pass some sort of input to our neural network, and then we get an ouput.
+
+## **Recurrent Neural Networks**
+
+### Feed-forward neural network
+A neural network that has connections only in one direction 
 
 
 
-
-
-
-
-
-
-
-
+<b>
+<font color="yellow"><</font><font color="skyblue">/</font><font color="yellow">></font>
+<b>
 
 
 
