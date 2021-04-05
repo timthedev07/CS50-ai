@@ -230,10 +230,6 @@ A neural network that has connections only in one direction
 
 
 
-<b>
-<font color="yellow"><</font><font color="skyblue">/</font><font color="yellow">></font>
-<b>
-
 
 
 
