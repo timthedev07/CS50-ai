@@ -102,17 +102,17 @@ def get_model():
     # initialize model
     model = tf.keras.models.Sequential([
 
-        # convolutional layer with 32 filters using a 6 * 6 kernel
+        # convolutional layer with 32 filters using a 4 * 4 kernel
         tf.keras.layers.Conv2D(
-            32, (6, 6), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+            32, (4, 4), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
         ),
 
         # max pooling layer of 3 * 3
         tf.keras.layers.MaxPooling2D(pool_size=(3, 3)),
 
-        # another convolutional layer with 32 filters using a 4 * 4 kernel
+        # another convolutional layer with 32 filters using a 3 * 3 kernel
         tf.keras.layers.Conv2D(
-            32, (4, 4), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+            32, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
         ),
 
         # flattening
@@ -120,7 +120,10 @@ def get_model():
 
         # Hidden layer with drop out 0.5
         tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dropout(0.4),
+
+        # Another hidden layer without drop out
+        tf.keras.layers.Dense(128, activation="relu"),
 
         # output layer corresponding to all 42 categories
         tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
