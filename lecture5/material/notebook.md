@@ -216,37 +216,19 @@ A neural network that uses convolution, usually for analyzing images.
 
 <img src="assets/minimizingdata.png" width="700" />
 
-
-The process of using neural networks to get ouputs can be represented as:
-
+### Feed-forward neural network
+A neural network that has connections only in one direction 
+The process of using feed-forward neural networks can be represented as:
 <img src="assets/ffnndiagram.png" width="700" />
+Where we pass some sort of input to our neural network, and through some calculation, we then get an ouput.
 
-Where we pass some sort of input to our neural network, and then we get an ouput.
+
 
 ## **Recurrent Neural Networks**
 
-### Feed-forward neural network
-A neural network that has connections only in one direction 
+A neural network that can feed its own output back into itself as input for the next time.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<img src="assets/recurrent.png" width="700" />
 
 
 
