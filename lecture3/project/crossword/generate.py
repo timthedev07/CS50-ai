@@ -4,6 +4,7 @@ from crossword import *
 import copy
 import random
 
+
 class CrosswordCreator():
 
     def __init__(self, crossword):
@@ -107,6 +108,7 @@ class CrosswordCreator():
                 if len(word) == x.length:
                     res.append(word)
             self.domains[x] = set(res)
+
     def revise(self, x, y):
         """
         ### This function is checked and confirmed to be correct
@@ -150,7 +152,6 @@ class CrosswordCreator():
 
         return revised
         
-
     def ac3(self, arcs=None):
         """
         ### This function is checked and confirmed to be correct
@@ -161,7 +162,7 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-         # setting the queue to be the argument `arcs`
+        # setting the queue to be the argument `arcs`
         queue = arcs
 
         # if arcs is none, meaning no argument is provided
@@ -189,7 +190,6 @@ class CrosswordCreator():
                 for Z in self.crossword.neighbors(X) - {Y}:
                     queue.append((Z, X))
         return True
-    
 
     def assignment_complete(self, assignment):
         """
@@ -232,11 +232,10 @@ class CrosswordCreator():
             for neighbor in neighbors:
                 (i, j) = self.crossword.overlaps[var, neighbor]
                 if wordx[i] != assignment[neighbor][j]:
-                        return False
+                    return False
 
         # Finally if all checks are passed
         return True
-
         
     def order_domain_values(self, var, assignment):
         """
@@ -280,7 +279,6 @@ class CrosswordCreator():
 
         res = list(sorted(num_effected_nodes.keys(), key=lambda node:num_effected_nodes[node]))
         return res
-
 
     def select_unassigned_variable(self, assignment):
         """
@@ -327,7 +325,6 @@ class CrosswordCreator():
                 candidates.remove(candidate)
         return candidates[0]
 
-
     def backtrack(self, assignment):
         """
         Using Backtracking Search, take as input a partial assignment for the
@@ -351,6 +348,7 @@ class CrosswordCreator():
                     return result
                 assignment_copy.pop(var)
         return None
+
 
 def main():
 

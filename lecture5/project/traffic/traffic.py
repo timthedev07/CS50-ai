@@ -108,7 +108,7 @@ def get_model():
 
         # convolutional layer with 32 filters using a 6 * 6 kernel
         tf.keras.layers.Conv2D(
-            32, (6, 6), activation="relu", input_shape=(IMG_WIDTH,IMG_HEIGHT, 3)
+            32, (6, 6), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
         ),
 
         # max pooling layer of 3 * 3
@@ -116,7 +116,7 @@ def get_model():
 
         # another convolutional layer with 32 filters using a 4 * 4 kernel
         tf.keras.layers.Conv2D(
-            32, (4, 4), activation="relu", input_shape=(IMG_WIDTH,IMG_HEIGHT, 3)
+            32, (4, 4), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
         ),
 
         # flattening
