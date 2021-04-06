@@ -5,13 +5,15 @@ import sys
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+import math
 
 from sklearn.model_selection import train_test_split
+from tensorflow.python.keras.layers.core import Flatten
 
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 3
+NUM_CATEGORIES = 43
 TEST_SIZE = 0.4
 
 
@@ -23,7 +25,7 @@ def main():
 
     # Get image arrays and labels for all image files
     images, labels = load_data(sys.argv[1])
-
+    print(f"Images shape: {np.array(images).shape} | Images shape: {np.array(labels).shape}")
     # Split data into training and testing sets
     labels = tf.keras.utils.to_categorical(labels)
     x_train, x_test, y_train, y_test = train_test_split(
@@ -35,7 +37,8 @@ def main():
 
     # Fit model on training data
     model.fit(x_train, y_train, epochs=EPOCHS)
-
+    
+    print("Finish traning, everything went well")
     # Evaluate neural network performance
     model.evaluate(x_test,  y_test, verbose=2)
 
@@ -65,7 +68,9 @@ def load_data(data_dir):
     labels = []
 
     # get the list of strings of directories numbered 0 to 42
-    category_dirs = [os.path.join(data_dir, str(i)) for i in range(NUM_CATEGORIES - 1)]
+    category_dirs = [os.path.join(data_dir, str(i)) for i in range(NUM_CATEGORIES)]
+
+    categoryNum = 0
 
     # iterate over the numbered directories
     for category in sorted(category_dirs):
@@ -77,17 +82,18 @@ def load_data(data_dir):
             image = cv2.imread(os.path.join(category, ppmFile))
 
             # resize it to the desired size.
-            image.resize(IMG_WIDTH, IMG_HEIGHT, 3)
+            image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
 
             # append the resized image formatted in a ndarray to the images list
             images.append(image)
 
-            # if the 
-            if len(category) == 7:
-                labels.append(int(category[-1:]))
-            else:
-                labels.append(int(category[-2:]))
-    return tuple([images, labels])
+            # append corresponding digits to the labels list
+            labels.append(categoryNum)
+            
+        categoryNum += 1
+
+    # return
+    return (images, labels)
 
 
 def get_model():
@@ -96,8 +102,42 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
+    
     # initialize model
-    model = keras.Sequential()
+    model = tf.keras.models.Sequential([
+
+        # convolutional layer with 32 filters using a 6 * 6 kernel
+        tf.keras.layers.Conv2D(
+            32, (6, 6), activation="relu", input_shape=(IMG_WIDTH,IMG_HEIGHT, 3)
+        ),
+
+        # max pooling layer of 3 * 3
+        tf.keras.layers.MaxPooling2D(pool_size=(3, 3)),
+
+        # another convolutional layer with 32 filters using a 4 * 4 kernel
+        tf.keras.layers.Conv2D(
+            32, (4, 4), activation="relu", input_shape=(IMG_WIDTH,IMG_HEIGHT, 3)
+        ),
+
+        # flattening
+        tf.keras.layers.Flatten(),
+
+        # Hidden layer with drop out 0.5
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dropout(0.5),
+
+        # output layer corresponding to all 42 categories
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+    ])
+
+    # compile model
+    model.compile(
+        optimizer="adam",
+        loss="categorical_crossentropy",
+        metrics=["accuracy"]
+    )
+
+    return model
 
 
 if __name__ == "__main__":
