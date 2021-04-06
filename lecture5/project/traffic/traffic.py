@@ -3,6 +3,8 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
 
 from sklearn.model_selection import train_test_split
 
@@ -58,7 +60,19 @@ def load_data(data_dir):
     be a list of integer labels, representing the categories for each of the
     corresponding `images`.
     """
-    raise NotImplementedError
+    images = []
+    labels = []
+    category_dirs = [os.path.join(data_dir, str(i)) for i in range(NUM_CATEGORIES - 1)]
+    for category in sorted(category_dirs):
+        for ppmFile in os.listdir(category):
+            image = cv2.imread(os.path.join(category, ppmFile))
+            image.resize(IMG_WIDTH, IMG_HEIGHT, 3)
+            images.append(image)
+            if len(category) == 7:
+                labels.append(int(category[-1:]))
+            else:
+                labels.append(int(category[-2:]))
+    return tuple([images, labels])
 
 
 def get_model():
