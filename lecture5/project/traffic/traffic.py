@@ -3,12 +3,9 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
 import math
 
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras.layers.core import Flatten
 
 EPOCHS = 10
 IMG_WIDTH = 30
