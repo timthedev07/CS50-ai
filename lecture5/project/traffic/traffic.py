@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 43
+NUM_CATEGORIES = 3
 TEST_SIZE = 0.4
 
 
@@ -60,14 +60,29 @@ def load_data(data_dir):
     be a list of integer labels, representing the categories for each of the
     corresponding `images`.
     """
+    # create lists for images and labels respectively
     images = []
     labels = []
+
+    # get the list of strings of directories numbered 0 to 42
     category_dirs = [os.path.join(data_dir, str(i)) for i in range(NUM_CATEGORIES - 1)]
+
+    # iterate over the numbered directories
     for category in sorted(category_dirs):
+
+        # iterate over the ppm files
         for ppmFile in os.listdir(category):
+
+            # read ppm file
             image = cv2.imread(os.path.join(category, ppmFile))
+
+            # resize it to the desired size.
             image.resize(IMG_WIDTH, IMG_HEIGHT, 3)
+
+            # append the resized image formatted in a ndarray to the images list
             images.append(image)
+
+            # if the 
             if len(category) == 7:
                 labels.append(int(category[-1:]))
             else:
@@ -81,7 +96,8 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    raise NotImplementedError
+    # initialize model
+    model = keras.Sequential()
 
 
 if __name__ == "__main__":
