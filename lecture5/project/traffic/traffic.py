@@ -22,7 +22,7 @@ def main():
 
     # Get image arrays and labels for all image files
     images, labels = load_data(sys.argv[1])
-    print(f"Images shape: {np.array(images).shape} | Images shape: {np.array(labels).shape}")
+    print('\033[92m' +"Finish loading data"+'\033[0m')
     # Split data into training and testing sets
     labels = tf.keras.utils.to_categorical(labels)
     x_train, x_test, y_train, y_test = train_test_split(
@@ -35,7 +35,6 @@ def main():
     # Fit model on training data
     model.fit(x_train, y_train, epochs=EPOCHS)
     
-    print("Finish traning, everything went well")
     # Evaluate neural network performance
     model.evaluate(x_test,  y_test, verbose=2)
 
