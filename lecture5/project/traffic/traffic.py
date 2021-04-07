@@ -120,7 +120,7 @@ def get_model():
 
         # Hidden layer with drop out 0.5
         tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
 
         # Another hidden layer without drop out
         tf.keras.layers.Dense(128, activation="relu"),
