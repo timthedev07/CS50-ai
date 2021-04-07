@@ -2,7 +2,7 @@ import os
 import random
 import re
 import sys
-from random import choices
+from random import choices, choice
 from copy import deepcopy
 
 DAMPING = 0.85
@@ -60,22 +60,18 @@ def transition_model(corpus:dict, page, damping_factor):
     a link at random chosen from all pages in the corpus.
     """
     # get the number of pages in corpus
-    num_p = len(corpus)
-    # set up a dictionary that is going to be returned
-    res = dict()
-    for iPage in corpus:
+    N = len(corpus)
 
-        # Divide 1 - d among all pages
-        pageRank = (1 - damping_factor) / num_p
-
-        # If no connections, add eq probability
-        if len(corpus[page]):
-            if iPage in corpus[page]:
-                pageRank += damping_factor / len(corpus[page])
-        else:
-            pageRank += damping_factor / num_p
-        res[iPage] = pageRank
-
+    # if no out going links
+    if len(corpus[page]) < 1:
+        return dict().fromkeys(corpus.keys(), 1 / N)
+    # set up a dictionary that is going to be returned, 
+    # where initially, each page has a probability of (1 - damping_factor) / N
+    res = dict().fromkeys(corpus.keys(), (1 - damping_factor) / N)
+    
+    # iterating over all of the possible links to go next
+    for nextPossibleDestination in corpus[page]:
+        res[nextPossibleDestination] += damping_factor / len(corpus[page])
     # check if the values of the probability distribution sum to 1(or really close)
     assert abs(sum(res.values()) - 1) < 0.0001
     return res
@@ -90,40 +86,45 @@ def sample_pagerank(corpus:dict, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    # gets all of the pages in a corpus
+    # get all of the pages in a corpus
     pages = list(corpus.keys())
+
+    # setting up a dictionary for counting the occurrences
+    count = {}.fromkeys(pages, 0)
+
     # setting the first example to a random page
-    prev_sample = random.choice(pages)
-    # setting up a list for all samples
-    data = []
-    # append the first generated sample to the list
-    data.append(prev_sample)
+    sample = random.choice(pages)
+    count[sample] += 1
 
     # set up the distribution dictionary to be returned, all values are initially 0
     distribution = {}.fromkeys(pages, 0)
 
+    
+    
     # iterate over the range 1 to n since we have already generated the first sample
     for i in range(1, n):
-        # get the transition model based on the previous sample
-        model = transition_model(corpus, prev_sample, damping_factor)
-        # generate the next sample based on the transition model
-        next_sample = choices(list(reversed(sorted(model.keys()))), weights=tuple(model.values()))[0]
-        
-        # append that sample to the list previously setted up.
-        data.append(next_sample)
 
-        # set the prev sample to the current sample for the next iteration
-        prev_sample = next_sample
-    
-    # setting up a dictionary 
-    count = {}
-    # count the occurrences
-    for i in data:
-        if i not in count:
-            count[i] = 1
-        else:
-            count[i] += 1
-    distribution = {key:count[key]/n for key in count}
+        # get the transition model based on the previous sample
+        model = transition_model(corpus, sample, damping_factor)
+
+        # generate the next sample based on the transition model
+        sample = choices(
+            population=list(model.keys()),
+            weights=list(model.values()),
+        )[0]
+        
+        if i % 600 == 0:
+            print()
+            print("Model")
+            for key, value in model.items():
+                print(f"{key} | {value}")
+            print(f"Random choices parameters:\nCandidates: {list(model.keys())}\nWeights: {list(model.values())}")
+        count[sample] += 1
+
+
+    print(count)
+    distribution = {key:value/n for key, value in count.items()}
+    assert abs(sum(count.values()) - n) < 0.0001
     return distribution
 
 def iterate_pagerank(corpus, damping_factor):
@@ -137,9 +138,11 @@ def iterate_pagerank(corpus, damping_factor):
     """
     # Getting total number of pages
     N = len(corpus)
+
     # Setting up a rank where initially each page has the same probability
     rank = {}.fromkeys(list(corpus.keys()), 1/N)
-    # defining threshold
+
+    # defining the threshold
     threshold = 0.00001
 
     # defining a constant expression
