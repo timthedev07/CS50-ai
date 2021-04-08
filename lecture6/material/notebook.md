@@ -153,6 +153,22 @@ Naive Bayes is a very popular technique often used in sentiment analysis of Bag-
 In the case of analyzing the reviews, we would like to calculate the probability of negative and probability of positive.
 
 For example, say, we are trying to figure out the probability that the first review shown above is positive(represented using the emoji)
+```py
+P(😀 | "my", "grandson", "loved", "it") # the probability that this is a positive message
+
+naively proportional to
+
+P(😀 )P("my" | 😀 )P("grandson" | 😀 )P("loved" | 😀 )P("it" | 😀 )
 ```
-P(😀 | "")
+
+Calculations that can be achieved based on some given data to work out the probability distribution stated above:
+```python
+# the probability that a message is positive
+P(😀 ) = number of positive samples / number of total samples
+
+P("loved" | 😀 ) = number of positive samples with "loved" / number of positive samples
 ```
+
+
+
+
