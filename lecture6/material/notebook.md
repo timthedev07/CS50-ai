@@ -169,6 +169,47 @@ P(😀 ) = number of positive samples / number of total samples
 P("loved" | 😀 ) = number of positive samples with "loved" / number of positive samples
 ```
 
+Given the following set of data, how can we calculate the probability that the sentence “My grandson loved it! So much fun!” is a positive message?
+
+<img src="assets/sampleData.png" width="700" />
+
+We could simply multiply the probabilities highlighted in green:
+
+<img src="assets/mult.png" width="700" />
+
+which results in:
+
+```
+    P(😀 )P("my" | 😀 )P("grandson" | 😀 )P("loved" | 😀 )P("it" | 😀 )
+                                    =
+                        0.49 * 0.3 * 0.01 * 0.32 * 0.3
+                                    =
+                                0.00014112
+```
+
+However this number alone isn't meaningful, but if we get the **probability that this particular sentences is a negative message**:
+
+```
+    P(🙁 )P("my" | 🙁 )P("grandson" | 🙁 )P("loved" | 🙁 )P("it" | 🙁 )
+                                    =
+                        0.51 * 0.2 * 0.02 * 0.08 * 0.40
+                                    =
+                                0.00006528
+```
+
+and **normalize these two values**(adding them up and divide each of them by the sum):
+```
+0.00014112 / (0.00014112 + 0.00006528)
+0.00006528 / (0.00014112 + 0.00006528)
+```
+
+and the result(rounded to 4dp) would be:
+
+```python
+# we are 68% confident that this is a positive message
+0.6837
+0.3163
+```
 
 
 
