@@ -152,4 +152,4 @@ Naive Bayes is a very popular technique often used in sentiment analysis of Bag-
 
 In the case of analyzing the reviews, we would like to calculate the probability of negative and probability of positive.
 
-P(:smile:)
+P(😀 )
