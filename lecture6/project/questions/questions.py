@@ -1,5 +1,9 @@
 import nltk
 import sys
+import os
+import math
+from string import punctuation, ascii_lowercase 
+
 
 FILE_MATCHES = 1
 SENTENCE_MATCHES = 1
@@ -48,7 +52,12 @@ def load_files(directory):
     Given a directory name, return a dictionary mapping the filename of each
     `.txt` file inside that directory to the file's contents as a string.
     """
-    raise NotImplementedError
+    entries = dict()
+    for fname in [os.path.join(directory, i) for i in os.listdir(directory)]:
+        with open(fname, "r") as txtFile:
+            entries[fname[len(directory) + 1:]] = txtFile.read()
+    return entries
+
 
 
 def tokenize(document):
@@ -59,9 +68,21 @@ def tokenize(document):
     Process document by coverting all words to lowercase, and removing any
     punctuation or English stopwords.
     """
-    raise NotImplementedError
+    words = ''
 
-
+    # remove non-alphabetical values
+    for c in document:
+        if c.lower() in ascii_lowercase + ' ':
+            words += c.lower()
+    # tokenize
+    words = nltk.word_tokenize(words)
+    res = []
+    for word in words:
+        if word not in nltk.corpus.stopwords.words("english"):
+            res.append(word)
+    print(res)
+    return words
+   
 def compute_idfs(documents):
     """
     Given a dictionary of `documents` that maps names of documents to a list
@@ -70,8 +91,20 @@ def compute_idfs(documents):
     Any word that appears in at least one of the documents should be in the
     resulting dictionary.
     """
-    raise NotImplementedError
-
+    res = dict()
+    seen = set()
+    TOTAL_DOCUMENTS = len(documents)
+    for document, text in documents.items():
+        for word in text:
+            if word not in seen:
+                numDocumentsContainingWord = 0
+                for x, y in documents.items():
+                    if x != document and word in y:
+                        numDocumentsContainingWord += 1
+                res[word] = math.log(TOTAL_DOCUMENTS / numDocumentsContainingWord)
+                seen.add(word)
+    
+    return res
 
 def top_files(query, files, idfs, n):
     """
@@ -80,7 +113,7 @@ def top_files(query, files, idfs, n):
     to their IDF values), return a list of the filenames of the the `n` top
     files that match the query, ranked according to tf-idf.
     """
-    raise NotImplementedError
+    
 
 
 def top_sentences(query, sentences, idfs, n):
