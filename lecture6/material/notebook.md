@@ -260,3 +260,32 @@ f"{company} is a company founded in {year}."
 ```
 
 ## **Word representation**
+We want to represent word meanings in our AI. As we’ve seen before, it is convenient to provide input to the AI in the form of **numbers**. 
+
+### ***One-Hot Representation***
+Where each word is represented with a vector that consists of as many values as we have words. Except for a single value in the vector that is equal to 1, all other values are equal to 0. How we can differentiate words is by which of the values is 1, ending up with a unique vector per word. For example, the sentence “He wrote a book” can be represented as four vectors:
+```
+[1, 0, 0, 0] (he)
+[0, 1, 0, 0] (wrote)
+[0, 0, 1, 0] (a)
+[0, 0, 0, 1] (book)
+```
+
+### ***Distributed Representation***
+Where meaning is distributed across multiple values in a vector. With distributed representation, each vector has a limited number of values (much less than 50,000), taking the following form:
+
+```
+[-0.34, -0.08, 0.02, -0.18, …] (he)
+[-0.27, 0.40, 0.00, -0.65, …] (wrote)
+[-0.12, -0.25, 0.29, -0.09, …] (a)
+[-0.23, -0.16, -0.05, -0.57, …] (book)
+```
+
+This allows us to generate unique values for each word while using smaller vectors. Additionally, now we are able to represent similarity between words by how different the values in their vectors are.
+
+## **word2vec**
+Model for generating word vectors, where it takes a word and generates a corresponding vector representing the word.
+
+### **skip-gram architecture
+Neural networks architecture for predicting context words given a target word.
+The difference between two words is a vector, meaning what does it take to get from word1 to word2, so the vector representing the difference is the relationship between one word and another.[brian's implementation](assets/script/vectors.py)
