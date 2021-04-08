@@ -211,5 +211,52 @@ and the result(rounded to 4dp) would be:
 0.3163
 ```
 
+But there is a challenge we have to deal with, imagine the word grandson has never appeared and been recorded into the dataset, now the join probability of P("grandson" | 😀 ) would be 0, which would ultimately end up ignoring all of the other possibilities since any number that gets multiplied by 0 would always be 0.
 
+<img src="assets/naiveBChallenge.png" width="700" />
 
+This can be avoided by using **additive smoothing**, which is a technique that adds a value _a_ to each value in our distribution to smooth the data, such that no probability has a value of 0. One such approach is called **Laplace smoothing**, which adds 1 to each value in our distribution: pretending we've seen each value on more time than we actually have.
+
+## **Information retrieval**
+The task of finding relevant documents in response to a user query, something like a search engine would do.
+
+### ***term frequency***
+number of times a term appears in a document, this can be used to extract some important information about a document. The words that appear more frequently are likely to be important.
+
+## **tf-idf**
+ranking of what words are important in a document by multiplying term frequency(tf) by inverse document frequency(idf)
+
+### **Function words**
+A fixed list of words where each word is used to connect other grammatical structures(to, do, am, which, with, yet, is)
+
+### **Content words**
+Words that carry meaning independently(e.g., computer, data, algorithm...)
+When looking for words with top frequency, we ultimately care about ranking the content words.
+
+### **Inverse document frequency**
+Measure of how common or rare a word is across documents.
+
+```py
+math.log(TotalDocuments / NumDocumentsContaining(word))
+```
+
+## **Information extraction**
+The task of extracting knowledge from documents
+
+It might be useful to provide the ai some template in order to extract information. Consider the following parts of articles:
+
+"When Facebook was founded in 2004, it began with a seemingly innocuous mission"...
+
+"Remember, back when Amazon was founded in 1994, most people"...
+
+There is a common pattern, which can be represented as a template, in this case, it will be: 
+```py
+f"When {company} was founded in {year},"
+```
+
+An AI could also be trained to form templates itself, for example, given two pieces of information, company and year, it would search through the internet where those two pieces of information show up together. You might imagine the AI is going through an article where it explores a sentence "Facebook is a company founded in 2004. ...", and given that the company *facebook* is founded in the year *2004*, it could learn the template: 
+```py
+f"{company} is a company founded in {year}."
+```
+
+## **Word representation**
