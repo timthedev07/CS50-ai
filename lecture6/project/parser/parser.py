@@ -19,9 +19,15 @@ V -> "smiled" | "tell" | "were"
 
 
 NONTERMINALS = """
-S -> NP VP | S Conj S | VP
+S -> NP VP | S Conj S | S Conj VP | S P NP
+CN -> N N | N CN
+NP -> N | N NP | AP NP | Det N P N | Det Adj N | Det N | NP Adv
+NP -> Det AP Adj N | 
 
-NP -> 
+
+VP -> V | V N | V NP | V PP | V PP NP | V NP | Adv V NP | V Adv
+VP -> V NP PP NP | P NP
+
 
 PP -> P NP | P
 AP -> Adj | Adj AP
@@ -72,37 +78,47 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    # split and turn into lowercase
+    # split, turn into lowercase, and remove unnecessary word
     words = ''.join([c.lower() for c in sentence if c not in punctuation + digits])
 
     return nltk.word_tokenize(words)
     
 
 
-def np_chunk(tree:nltk.tree.Tree):
+def np_chunk(tree):
     """
     Return a list of all noun phrase chunks in the sentence tree.
     A noun phrase chunk is defined as any subtree of the sentence
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    chunks = []
-    res = []
-    for child in tree:
-        if isinstance(child, nltk.tree.Tree):
-            if validChunk(child) and child.label() == "NP":
-                res.append(child.flatten())
-    return res
+    # get all subtrees of the tree applying the filter `validChunk`(see below)
+    res_chunks = [i for i in tree.subtrees(validChunk)]
+
+    return res_chunks
     
 def validChunk(tree:nltk.tree.Tree):
     """
-    Checks for any subtrees 
+    Checks whether a chunk is a valid chunk(itself must be a NP and not have any other NP subtrees)
     """
-    for subtree in list(tree.subtrees()):
+    # if the tree itself is not a noun phrase
+    if tree.label() != "NP":
+        return False
+
+    # iterate over the subtrees of the given tree
+    for subtree in tree.subtrees(lambda x:x!=tree):
+
+        # if any subtree is a noun phrase
         if subtree.label() == "NP":
-            for deep_subtree in list(subtree.subtrees()):
-                if deep_subtree.label() == "S":
-                    return False
+            return False
+
+        # if ant subtree of the current subtree is a NP
+        for deep_subtree in subtree.subtrees(lambda x:x!=subtree):
+            if deep_subtree.label() == "NP":
+                return False
+    
+    # if all checks are passed
     return True
+    
 if __name__ == "__main__":
     main()
