@@ -1,5 +1,5 @@
 # Implication
-![](implication.png)
+![](assets/implication.png)
 **The only way for the result to be false is when P is true, but Q is false.**
 **If P is false, there's no need to make claim to Q**
 
@@ -11,7 +11,7 @@
 
 
 # Biconditional
-![](biconditional.png)
+![](assets/biconditional.png)
 **In biconditional, the two logics implies to each other**
 
 
@@ -72,14 +72,14 @@ VICE VERSA(It is not true that Harry or Ron passed the test):
 
 ¬a ^ ¬b
 
-![](OR0.png)
+![](assets/OR0.png)
 
 ***A clause is disjunction of literals***
 
 ----
 
 # Convert implication and biconditional to **and** and **or**.
-![](conversion.png)
+![](assets/conversion.png)
 
 1. If both symbols imply to eachother, we can say, a implies to b and b implies to a.
 2. To eliminate implications, 
