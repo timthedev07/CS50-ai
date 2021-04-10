@@ -1,23 +1,3 @@
-<style>
-    body {
-        font-family: Menlo, Monaco, 'Courier New', monospace;
-    }
-    h1{
-        font-size: 50px;
-    }
-    h2{
-        font-size: 35px;
-    }
-    h3{
-        font-size: 25px;
-    }
-    h4{
-        font-size: 18px;
-    }
-    .comments {
-        color: #1fd12e; 
-    }
-</style>
 # Optimization
 
 Optimization is choosing the best option from a set of options
@@ -31,28 +11,28 @@ It is different from search methods introduced in the first lecture(bfs, dfs, A*
 
 For example in the picture below, the total cost of this configuration is 17, what optimization is trying to do is find a plan that produces the lowest cost.
 
-![](img/hospital.png)
+![](assets/img/hospital.png)
 
 
 This is a state-space landscape, where each vertical bar is a possible state in our world, and the height of the bar is the cost of it.
 
 
-![](img/state-space.png)
+![](assets/img/state-space.png)
 
 If we are trying to find the maximum value along these states, we use an algorithm called ***Hill Climbing***
 
 Start off by picking a state
 
-![](img/max1.png)
+![](assets/img/max1.png)
 
 And then we want to choose a state with larger value sbetween the neighbors, in this case, it is the node to the left
-![](img/max2.png)
+![](assets/img/max2.png)
 
 We repeat that process again and again
-![](img/max3.png)
+![](assets/img/max3.png)
 
 Until we reach the node where there is not place no place to `climb`
-![](img/max4.png)
+![](assets/img/max4.png)
 
 This can be written in pseudo code as:
 
@@ -69,11 +49,11 @@ function HILL_CLIMB(problem):
 
 #### Notice: there is a **local maxima** as there is a **global maximum**, a **local maxima** is when a state has all of it's neighboring values below itself, but in fact, it is not the **global maximum**, which means it is not still the highest.
 
-![](img/localMaxima.png)
+![](assets/img/localMaxima.png)
 
 And something even more annoying(flat local maximum):
 
-![](img/flat_local.png)'
+![](assets/img/flat_local.png)'
 
 Although we have a few other variants:
 
@@ -164,10 +144,10 @@ Node consistency is when all the values in a variable's domain satisfy the unary
 ### Node Consistency
 
 For example, we might have a situation where:
-![](img/nodeConsistency0.png)
+![](assets/img/nodeConsistency0.png)
 
 After enforcing ***node consistency***, we simply removed the values that do not satisfy the constraint:
-![](img/nodeConsistency0.png)
+![](assets/img/nodeConsistency0.png)
 
 Such that we satisfy the unary constraints.
 
