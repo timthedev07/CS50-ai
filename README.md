@@ -16,7 +16,7 @@ The following table contains all the notes I've taken when watching the lectures
 | 5    | [Notebook 5](lecture5/material/notebook.md) |
 | 6    | [Notebook 6](lecture6/material/notebook.md) |
 
-The one below is all of the projects I've done
+The one below include all of the projects I've done
 | week | projects                                                                                  |
 | ---- | ----------------------------------------------------------------------------------------- |
 | 0    | [Tic Tac Toe](lecture0/project/tictactoe), [Degrees](lecture0/project/degrees)            |
