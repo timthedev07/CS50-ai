@@ -118,7 +118,7 @@ In this case, we are not getting only 0 and 1 anymore, but instead we get the a 
 
 <img src="assets/supportvector.png" width="700" />
 
-- However, the first two boundaries are problematic although they successfully separate the two groups of observations. Say, we are to analyze a new data point on the second picture for example, if that it is somewhere near the decision boundary but on the blue side, the result would be in accurate sicne the blue area covers so much more space than the red area.
+- However, the first two boundaries are problematic although they successfully separate the two groups of observations. Say, we are to analyze a new data point on the second picture for example, if that it is somewhere near the decision boundary but on the blue side, the result would be inaccurate since the blue area covers so much more space than the red area.
 
 - Support Vector Machines are designed to try to find the **maximum margin separator**, a boundary that maximizes the distance between any of the data points. This also works in higher dimensions, where instead of looking for a line of decision boundary, it finds the **hyperplane** that separates one set of data from another. This becomes handy when the decision boundary we are looking for is non-linear, something like:
 
@@ -166,7 +166,7 @@ L(actual, predicted) = abs(actual - predicted)
 
 ### L2 Loss function
 - More harshly panelized the outliers
-- Worse data points can be easily visualizes
+- Worse data points can be easily visualized
 ```python
 L(actual, predicted) = (actual - predicted) ** 2
 ```
